@@ -29,3 +29,18 @@ const validationStrategy = new Strategy({
     authenticate);
 
 passport.use(validationStrategy);
+
+passport.serializeUser(function(user,cb) {
+    process.nextTick(function () {
+        cb(null, {id:user.id,username:user.email,displayName:user.displayName});
+    });
+});
+
+passport.deserializeUser(async function(user,cb){
+    // const dbUser = await User.findByPk(user.id);
+    process.nextTick(function(){
+        return cb(null,user);
+    });
+});
+
+module.exports.passport = passport;
