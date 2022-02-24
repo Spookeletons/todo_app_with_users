@@ -8,8 +8,8 @@ module.exports.listAll = async function(req, res) {
         }
     });
 
-    let completeItems = todos.filter(item => item.complete);
-    let incompleteItems = todos.filter(item => !item.complete);
+    let completeItems = todos.filter(item => item.completed);
+    let incompleteItems = todos.filter(item => !item.completed);
 
     res.render('todos/viewAll', {
         completeItems,
@@ -29,7 +29,10 @@ module.exports.displayAddItem = function(req, res) {
 };
 
 module.exports.addNewItem = async function(req, res){
-    await Todo.create({description: req.body.description});
+    await Todo.create({
+        description: req.body.description,
+    user_id: req.user.id
+    });
     res.redirect('/');
 };
 
@@ -78,5 +81,3 @@ module.exports.markItemIncomplete = async function(req, res) {
     })
     res.redirect('/');
 };
-
-
